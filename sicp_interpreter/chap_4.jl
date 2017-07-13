@@ -97,7 +97,7 @@ module Environments
      (:*, *),
      (:car, x->x[1]),
      (:cdr, x->x[2]),
-     (:cons, (x,y)->(debug("push($(x), $(y))"); push!(Array{Any}([x]),y)))]                  |>
+     (:cons, (x,y)->(debug("push($(x), $(y))"); push!(Array{Any}([x]),y)))] |>
      tups -> map(tup -> (tup[1], [:primitive, tup[2]]), tups) |> # tag procs
      Dict{Symbol, Any}
 
