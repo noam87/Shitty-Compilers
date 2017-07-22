@@ -8,6 +8,8 @@ char* yytext = ""; // lexeme (not '\0' terminated)
 int yyleng = 0;
 int yylineno = 0;
 
+static int lookaheadToken = -1;
+
 int lex() {
     static char input_buffer[BUFFER_LENGTH];
     char* current;
@@ -34,6 +36,7 @@ int lex() {
 
             switch (*current) {
                 case EOF: return EOI;
+                case '$': return EOI; // cheat for sdtin
                 case ';': return SEMI;
                 case '+': return PLUS;
                 case '*': return TIMES;
@@ -45,7 +48,7 @@ int lex() {
                 case ' ': break;
 
                 default:
-                    if (isalnum(*current))
+                    if (!isalnum(*current))
                         fprintf(stderr,
                                 "Ignoring illegal input <%c>\n",
                                 *current);
@@ -59,4 +62,13 @@ int lex() {
             }
         }
     }
+}
+
+int match(int token) {
+    if (lookaheadToken == -1) lookaheadToken = lex();
+    return token == lookaheadToken;
+}
+
+void advance() {
+    lookaheadToken = lex();
 }

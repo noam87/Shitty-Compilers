@@ -1,4 +1,5 @@
-#include "lex.h"
+#include "parser.h"
 
 int main() {
+    parse();
 }
